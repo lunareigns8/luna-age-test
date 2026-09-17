@@ -165,7 +165,31 @@ ID card format: 3 lines × 30 characters"></textarea>
       <span>MRZ reader adapted from the MIT-licensed Passport MRZ Reader by Min SiThu</span>
     </footer>
   </main>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const tabs = [
+      ["uploadTab", "uploadPanel"],
+      ["cameraTab", "cameraPanel"],
+      ["manualTab", "manualPanel"]
+    ];
 
+    tabs.forEach(([tabId, panelId]) => {
+      const tab = document.getElementById(tabId);
+
+      tab.addEventListener("click", function () {
+        tabs.forEach(([otherTabId, otherPanelId]) => {
+          document
+            .getElementById(otherTabId)
+            .classList.toggle("active", otherTabId === tabId);
+
+          document
+            .getElementById(otherPanelId)
+            .classList.toggle("hidden", otherPanelId !== panelId);
+        });
+      });
+    });
+  });
+</script>
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@6/dist/tesseract.min.js" crossorigin="anonymous"></script>
   <script type="module" src="./src/app.js"></script>
 </body>
