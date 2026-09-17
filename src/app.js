@@ -137,25 +137,64 @@ els.clearBtn?.addEventListener("click", clearAll);
 
 /* ---------- MANUAL TEST ---------- */
 
-els.parseManualBtn?.addEventListener("click", () => {
-  const value = els.manualMrz.value.trim();
+if (els.parseManualBtn) {
+  els.parseManualBtn.addEventListener("click", function () {
 
-  if (!value) {
-    setStatus("Paste one MRZ block first.", 1);
-    return;
-  }
+    try {
+      const value = els.manualMrz?.value?.trim() || "";
 
-  runParse(value, { source: "manual" });
-});
+      if (!value) {
+        setStatus("Paste an MRZ first.", 1);
+        return;
+      }
 
-els.loadSampleBtn?.addEventListener("click", () => {
-  els.manualMrz.value = SAMPLE_MRZ;
+      setStatus("Parse button clicked. Processing MRZ...", 0.5);
 
-  runParse(SAMPLE_MRZ, {
-    source: "manual"
+      runParse(value, {
+        source: "manual"
+      });
+
+    } catch (error) {
+      setStatus(
+        "Manual parse error: " + error.message,
+        1
+      );
+
+      console.error(error);
+    }
   });
-});
+}
 
+
+if (els.loadSampleBtn) {
+  els.loadSampleBtn.addEventListener("click", function () {
+
+    try {
+      const sample =
+`P<UTOERIKSSON<<ANNA<MARIA<<<<<<<<<<<<<<<<<<<
+L898902C36UTO7408122F1204159ZE184226B<<<<<10`;
+
+      els.manualMrz.value = sample;
+
+      setStatus(
+        "Sample loaded. Parsing MRZ...",
+        0.5
+      );
+
+      runParse(sample, {
+        source: "manual"
+      });
+
+    } catch (error) {
+      setStatus(
+        "Sample error: " + error.message,
+        1
+      );
+
+      console.error(error);
+    }
+  });
+}
 els.retryBottomBtn?.addEventListener("click", async () => {
   if (lastSource) {
     await scanImage(lastSource, "bottom");
