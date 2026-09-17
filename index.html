@@ -172,22 +172,6 @@ ID card format: 3 lines × 30 characters"></textarea>
       ["cameraTab", "cameraPanel"],
       ["manualTab", "manualPanel"]
     ];
-
-    tabs.forEach(([tabId, panelId]) => {
-      const tab = document.getElementById(tabId);
-
-      tab.addEventListener("click", function () {
-        tabs.forEach(([otherTabId, otherPanelId]) => {
-          document
-            .getElementById(otherTabId)
-            .classList.toggle("active", otherTabId === tabId);
-
-          document
-            .getElementById(otherPanelId)
-            .classList.toggle("hidden", otherPanelId !== panelId);
-        });
-      });
-    });
   });
 </script>
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@6/dist/tesseract.min.js" crossorigin="anonymous"></script>
