@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
+
   <meta
     http-equiv="Content-Security-Policy"
     content="
@@ -20,22 +21,32 @@
       upgrade-insecure-requests;
     "
   />
+
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="referrer" content="no-referrer" />
   <meta name="robots" content="noindex, nofollow" />
   <meta name="author" content="Luna Age Test" />
+
   <title>Luna Private Age Check — Test</title>
+
   <link rel="stylesheet" href="./styles.css" />
 </head>
+
 <body>
   <main class="app">
+
     <section class="hero">
       <div class="hero-copy">
         <p class="eyebrow">Private 18+ check — test build</p>
+
         <h1>Luna Age Verification</h1>
+
         <p class="sub">
-          Scan the machine-readable zone (MRZ) on a passport or compatible ID. Processing happens locally in your browser. This test reports only whether the MRZ is valid and the document holder is 18+.
+          Scan the machine-readable zone (MRZ) on a passport or compatible ID.
+          Processing happens locally in your browser. This test reports only
+          whether the MRZ is valid and the document holder is 18+.
         </p>
+
         <div class="badges">
           <span>Local processing</span>
           <span>MRZ validation</span>
@@ -43,138 +54,281 @@
           <span>No identity record</span>
         </div>
       </div>
+
       <aside class="security-card">
         <strong>Privacy-first test</strong>
-        <p>The page does not send the document image or extracted identity fields to Luna. After a result is calculated, temporary image/MRZ data is cleared from the page.</p>
-        <button id="clearBtn" type="button">Clear verification</button>
+
+        <p>
+          The page does not send the document image or extracted identity
+          fields to Luna. After a result is calculated, temporary image/MRZ
+          data is cleared from the page.
+        </p>
+
+        <button id="clearBtn" type="button">
+          Clear verification
+        </button>
       </aside>
     </section>
 
     <section class="panel">
+
       <div class="tabs" role="tablist" aria-label="MRZ input options">
-        <button class="tab active" id="uploadTab" type="button">Upload</button>
-        <button class="tab" id="cameraTab" type="button">Camera</button>
-        <button class="tab" id="manualTab" type="button">Manual</button>
+        <button class="tab active" id="uploadTab" type="button">
+          Upload
+        </button>
+
+        <button class="tab" id="cameraTab" type="button">
+          Camera
+        </button>
+
+        <button class="tab" id="manualTab" type="button">
+          Manual
+        </button>
       </div>
 
+      <!-- UPLOAD -->
       <div class="tab-panel" id="uploadPanel">
+
         <label class="dropzone" id="dropzone">
-          <input id="fileInput" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" />
-          <span>Choose or drop passport / compatible ID image</span>
-          <small>Max 10 MB. Use a clear image with the full MRZ visible.</small>
+
+          <input
+            id="fileInput"
+            type="file"
+            accept="image/jpeg,image/png,image/webp,image/heic,image/heif"
+          />
+
+          <span>
+            Choose or drop passport / compatible ID image
+          </span>
+
+          <small>
+            Max 10 MB. Use a clear image with the full MRZ visible.
+          </small>
+
         </label>
       </div>
 
+      <!-- CAMERA -->
       <div class="tab-panel hidden" id="cameraPanel">
+
         <div class="camera-tools">
+
           <label>
             Camera
+
             <select id="cameraSelect">
               <option value="">Auto camera</option>
             </select>
           </label>
+
           <label>
             Quality
+
             <select id="cameraQuality">
               <option value="fast">Fast</option>
               <option value="balanced" selected>Balanced</option>
               <option value="sharp">Sharp</option>
             </select>
           </label>
+
         </div>
 
         <div class="camera-wrap">
-          <video id="video" playsinline autoplay muted></video>
+
+          <video
+            id="video"
+            playsinline
+            autoplay
+            muted>
+          </video>
+
           <div class="mrz-guide">
             <strong>MRZ area</strong>
-            <span>Keep both MRZ lines straight and inside this box</span>
+            <span>
+              Keep both MRZ lines straight and inside this box
+            </span>
           </div>
+
         </div>
 
         <div class="actions">
-          <button id="startCameraBtn" type="button">Start camera</button>
-          <button id="captureBtn" type="button" disabled>Capture</button>
-          <button id="torchBtn" type="button" disabled>Toggle light</button>
-          <button id="stopCameraBtn" type="button" disabled>Stop camera</button>
+
+          <button id="startCameraBtn" type="button">
+            Start camera
+          </button>
+
+          <button id="captureBtn" type="button" disabled>
+            Capture
+          </button>
+
+          <button id="torchBtn" type="button" disabled>
+            Toggle light
+          </button>
+
+          <button id="stopCameraBtn" type="button" disabled>
+            Stop camera
+          </button>
+
         </div>
 
         <p class="camera-help">
-          Tip: hold the passport flat, avoid glare, and fill the blue box with the MRZ lines.
+          Tip: hold the passport flat, avoid glare, and fill the blue box
+          with the MRZ lines.
         </p>
+
       </div>
 
+      <!-- MANUAL -->
       <div class="tab-panel hidden" id="manualPanel">
-        <textarea id="manualMrz" rows="5" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="characters" placeholder="Paste full MRZ lines here:
+
+        <textarea
+          id="manualMrz"
+          rows="5"
+          spellcheck="false"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="characters"
+          placeholder="Paste full MRZ lines here:
 
 Passport format: 2 lines × 44 characters
 ID card format: 3 lines × 30 characters"></textarea>
+
         <div class="actions">
-          <button id="parseManualBtn" type="button">Parse MRZ</button>
-          <button id="loadSampleBtn" type="button">Load sample</button>
+
+          <button id="parseManualBtn" type="button">
+            Parse MRZ
+          </button>
+
+          <button id="loadSampleBtn" type="button">
+            Load sample
+          </button>
+
         </div>
+
       </div>
+
     </section>
 
+    <!-- PREVIEW + STATUS -->
     <section class="grid sensitive-debug">
+
       <div class="panel">
+
         <div class="section-title">
           <h2>Preview</h2>
           <span id="imageMeta" class="muted"></span>
         </div>
+
         <div class="preview-grid">
+
           <div>
             <h3>Original</h3>
             <canvas id="originalCanvas"></canvas>
           </div>
+
           <div>
             <h3>Processed MRZ crop</h3>
             <canvas id="processedCanvas"></canvas>
           </div>
+
         </div>
+
       </div>
 
       <div class="panel">
+
         <h2>Status</h2>
-        <div class="progress"><div id="progressBar"></div></div>
-        <pre id="status">Ready.</pre>
-        <div class="actions">
-          <button id="retryBottomBtn" type="button" disabled>Retry bottom crop</button>
-          <button id="retryWideBtn" type="button" disabled>Retry wider crop</button>
+
+        <div class="progress">
+          <div id="progressBar"></div>
         </div>
+
+        <pre id="status">Ready.</pre>
+
+        <div class="actions">
+
+          <button
+            id="retryBottomBtn"
+            type="button"
+            disabled>
+            Retry bottom crop
+          </button>
+
+          <button
+            id="retryWideBtn"
+            type="button"
+            disabled>
+            Retry wider crop
+          </button>
+
+        </div>
+
       </div>
+
     </section>
 
+    <!-- OCR + RESULT -->
     <section class="grid sensitive-debug">
+
       <div class="panel">
+
         <h2>OCR candidate text</h2>
-        <pre id="ocrText" class="output">No MRZ candidate yet.</pre>
+
+        <pre id="ocrText" class="output">
+No MRZ candidate yet.
+        </pre>
+
       </div>
 
       <div class="panel">
+
         <h2>Age-check result</h2>
-        <div id="parsedOutput" class="cards muted">No verification result yet.</div>
+
+        <div
+          id="parsedOutput"
+          class="cards muted">
+          No verification result yet.
+        </div>
+
       </div>
+
     </section>
 
+    <!-- SAFE OUTPUT -->
     <section class="panel sensitive-debug">
+
       <h2>Safe developer output</h2>
+
       <pre id="jsonOutput" class="output">{}</pre>
+
     </section>
+
     <footer class="footer">
-      <span>Luna Age Check — TEST ONLY</span>
-      <span>MRZ reader adapted from the MIT-licensed Passport MRZ Reader by Min SiThu</span>
+
+      <span>
+        Luna Age Check — TEST ONLY
+      </span>
+
+      <span>
+        MRZ reader adapted from the MIT-licensed
+        Passport MRZ Reader by Min SiThu
+      </span>
+
     </footer>
+
   </main>
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const tabs = [
-      ["uploadTab", "uploadPanel"],
-      ["cameraTab", "cameraPanel"],
-      ["manualTab", "manualPanel"]
-    ];
-  });
-</script>
-  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@6/dist/tesseract.min.js" crossorigin="anonymous"></script>
-  <script type="module" src="./src/app.js"></script>
+
+  <!-- OCR ENGINE -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/tesseract.js@6/dist/tesseract.min.js"
+    crossorigin="anonymous">
+  </script>
+
+  <!-- LUNA APP -->
+  <script
+    type="module"
+    src="./src/app.js">
+  </script>
+
 </body>
 </html>
